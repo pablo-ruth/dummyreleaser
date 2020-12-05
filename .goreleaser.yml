@@ -32,3 +32,20 @@ signs:
       - "${artifact}"
 changelog:
   skip: true
+nfpms:
+  - maintainer: Pablo RUTH <contact@pablo-ruth.fr>
+    homepage: https://github.com/signmykeyio/signmykey
+    vendor: signmykey.io
+    description: An automated SSH Certificate Authority
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
+    rpm:
+      group: admin
+    overrides:
+      rpm:
+        replacements:
+          amd64: x86_64
+        name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Arch }}"

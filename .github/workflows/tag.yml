@@ -38,3 +38,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+
+      - name: FPM Upload Tag
+        env:
+          BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+          BINTRAY_TOKEN: ${{ secrets.BINTRAY_TOKEN }}
+        run: |
+          curl -u${BINTRAY_USER}:${BINTRAY_TOKEN} --data '{"name":"${{ steps.get_version.outputs.VERSION }}","desc":"${{ steps.get_version.outputs.VERSION }}"}' https://api.bintray.com//packages/dummyreleaserio/dummyreleaser-deb/dummyreleaser/versions
+          curl -T dummyreleaser_${{ steps.get_version.outputs.VERSION }}_amd64.deb -u${BINTRAY_USER}:${BINTRAY_TOKEN} "https://api.bintray.com/content/dummyreleaserio/dummyreleaser-deb/dummyreleaser/${{ steps.get_version.outputs.VERSION }}/pool/dummyreleaser_${{ steps.get_version.outputs.VERSION }}_amd64.deb;deb_distribution=stable;deb_component=main;deb_architecture=amd64"
+          curl -u${BINTRAY_USER}:${BINTRAY_TOKEN} --data '{"discard":true,"publish_wait_for_secs":,"subject":"dummyreleaser.io"}' "https://api.bintray.com/content/dummyreleaserio/dummyreleaser-deb/dummyreleaser/${{ steps.get_version.outputs.VERSION }}/publish"
+          curl -u${BINTRAY_USER}:${BINTRAY_TOKEN} --data '{"name":"${{ steps.get_version.outputs.VERSION }}","desc":"${{ steps.get_version.outputs.VERSION }}"}' https://api.bintray.com//packages/dummyreleaserio/dummyreleaser-rpm/dummyreleaser/versions
+          curl -T dummyreleaser-${{ steps.get_version.outputs.VERSION }}.x86_64.rpm -u${BINTRAY_USER}:${BINTRAY_TOKEN} "https://api.bintray.com/content/dummyreleaserio/dummyreleaser-rpm/dummyreleaser/${{ steps.get_version.outputs.VERSION }}/pool/dummyreleaser-${{ steps.get_version.outputs.VERSION }}.x86_64.rpm"
+          curl -u${BINTRAY_USER}:${BINTRAY_TOKEN} --data '{"discard":true,"publish_wait_for_secs":,"subject":"dummyreleaser.io"}' "https://api.bintray.com/content/dummyreleaserio/dummyreleaser-rpm/dummyreleaser/${{ steps.get_version.outputs.VERSION }}/publish"
