@@ -20,7 +20,7 @@ archives:
 checksum:
   name_template: "checksums.txt"
 release:
-  name_template: "{{ .ProjectName }}"
+  name_template: "test"
 changelog:
   skip: true
 # snapshot:
