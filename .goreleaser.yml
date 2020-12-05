@@ -48,4 +48,3 @@ nfpms:
       rpm:
         replacements:
           amd64: x86_64
-        name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Arch }}"
